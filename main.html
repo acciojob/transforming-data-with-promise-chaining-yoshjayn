@@ -1,15 +1,53 @@
 <!DOCTYPE html>
-
 <html>
   <head>
-    <link rel="stylesheet" href="styles.css" />
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
   </head>
-
   <body>
     <!-- do not change this code -->
     <input type="number" id="ip" />
     <button id="btn">Start</button>
     <div id="output"></div>
-    <script type="text/javascript" src="./script.js"></script>
+    <script>
+      // Helper function to create a promise with a delay
+      function check(delay, number) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(number);
+          }, delay);
+        });
+      }
+
+      // Event listener for the button click
+      document.getElementById("btn").addEventListener("click", async () => {
+        const number = parseFloat(document.getElementById("ip").value); // Get the input value
+        const outputDiv = document.getElementById("output"); // Get the output div
+
+        try {
+          // Step 1: Wait for 2 seconds and resolve with the input number
+          let res = await check(2000, number);
+          outputDiv.innerText = `Result: ${res}`;
+
+          // Step 2: Wait for 2 seconds and resolve with res * 2
+          res = await check(2000, res * 2);
+          outputDiv.innerText = `Result: ${res}`;
+
+          // Step 3: Wait for 1 second and resolve with res - 3
+          res = await check(1000, res - 3);
+          outputDiv.innerText = `Result: ${res}`;
+
+          // Step 4: Wait for 1 second and resolve with res / 2
+          res = await check(1000, res / 2);
+          outputDiv.innerText = `Result: ${res}`;
+
+          // Step 5: Wait for 1 second and resolve with res + 10
+          res = await check(1000, res + 10);
+          outputDiv.innerText = `Final Result: ${res}`;
+        } catch (error) {
+          // Handle any errors that occur during the process
+          outputDiv.innerText = `Error: ${error.message}`;
+        }
+      });
+    </script>
   </body>
 </html>
